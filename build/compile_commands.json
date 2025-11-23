@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/oliverturk/Programming/image_to_ascii/build",
+  "command": "/usr/bin/cc  -I/Users/oliverturk/Programming/image_to_ascii/include  -arch arm64 -o CMakeFiles/myapp.dir/src/main.c.o -c /Users/oliverturk/Programming/image_to_ascii/src/main.c",
+  "file": "/Users/oliverturk/Programming/image_to_ascii/src/main.c",
+  "output": "CMakeFiles/myapp.dir/src/main.c.o"
+}
+]
