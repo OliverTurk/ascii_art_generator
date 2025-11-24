@@ -8,11 +8,6 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-int foo()
-{
-    return 0;
-}
-
 int main()
 {
     int img_width, img_height, channels;
@@ -23,10 +18,11 @@ int main()
         exit(1);
     }
 
-    int width = 100;
+    printf("%d \n", img_width * img_width * channels);
+
+    int width = 1;
     float scaling_factor = (float)width / img_width;
     int height = (img_height * scaling_factor) / 2.0f ;
-
     unsigned char *resized_arr = malloc(width * height * channels);
 
     float y_ratio = (float)(img_height - 1) / (height - 1);
@@ -38,8 +34,8 @@ int main()
         {
             int x_l = floor(x_ratio * j);
             int y_l = floor(y_ratio * i);
-            int x_h = ceil(x_ratio * j);
-            int y_h = ceil(y_ratio * i);
+            int x_h = (int)fmin(img_width - 1, ceil(x_ratio * j));
+            int y_h = (int)fmin(img_height - 1, ceil(y_ratio * i));
 
             float x_weight = (x_ratio * j) - x_l;
             float y_weight = (y_ratio * i) - y_l;
@@ -60,11 +56,6 @@ int main()
             }
         }
     }
-    
-
-    if (!stbi_write_png("output.png", width, height, channels, resized_arr, width * channels)) {
-        printf("Failed to save image\n");
-    }
 
     char ascii_chars[12] = { ' ', '.', '-', '=', '+', '*', 'x', '#', '$', '&', 'X', '@' };
 
@@ -78,15 +69,18 @@ int main()
             
             float brightness = 0.299f*r + 0.587f*g + 0.114f*b;
 
-            int idx = (brightness * 12) / 255;
-            if (idx == 12) idx = 11;
+            int idx = (int)(brightness * 11.0f / 255.0f);
 
             char character = ascii_chars[idx];
-            
+           
             printf("%c", character);
         }
         printf("\n");
     }
+    
+    free(resized_arr);
+    stbi_image_free(img);
 
+    return 0;
 }
 

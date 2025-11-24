@@ -1,3 +1,0 @@
-/Users/oliverturk/Programming/image_to_ascii/build/CMakeFiles/myapp.dir
-/Users/oliverturk/Programming/image_to_ascii/build/CMakeFiles/edit_cache.dir
-/Users/oliverturk/Programming/image_to_ascii/build/CMakeFiles/rebuild_cache.dir
