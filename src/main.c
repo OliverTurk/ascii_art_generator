@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -8,19 +9,39 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-int main()
+int main(int argc, char **argv)
 {
+    int opt;
+    int width = 50;
+
+    while (( opt = getopt(argc, argv, "w:")) != -1)
+    {
+        switch (opt) {
+            case 'w':
+                printf("12345");
+                width = atoi(optarg);
+                break;
+            case '?':
+                printf("Usage: filename [-w]");
+                exit(1);
+        }
+    }
+
+    if (optind >= argc) {
+        fprintf(stderr, "Missing input file");
+        exit(1);
+    }
+
+    char *filename = argv[optind++];
+
     int img_width, img_height, channels;
-    unsigned char *img = stbi_load("../images/dog.jpg", &img_width, &img_height, &channels, 0);
+    unsigned char *img = stbi_load(filename, &img_width, &img_height, &channels, 0);
     
     if (img == NULL) {
         printf("Error loading the image %s,", stbi_failure_reason());
         exit(1);
     }
 
-    printf("%d \n", img_width * img_width * channels);
-
-    int width = 1;
     float scaling_factor = (float)width / img_width;
     int height = (img_height * scaling_factor) / 2.0f ;
     unsigned char *resized_arr = malloc(width * height * channels);
