@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "../include/image.h"
+#include "../include/gif.h"
+#include "stb_image.h"
+
 
 int main(int argc, char **argv)
 {
@@ -13,7 +17,6 @@ int main(int argc, char **argv)
     {
         switch (opt) {
             case 'w':
-                printf("12345");
                 width = atoi(optarg);
                 break;
             case '?':
@@ -29,16 +32,29 @@ int main(int argc, char **argv)
 
     char *filename = argv[optind++];
     
-    image original = load_image(filename);
+    char *file_format = filename + (strlen(filename) - 3);
 
-    image resized = resize_image(&original, width); 
-    
-    free_image(&original);
-
-    print_image(&resized);
+    if (strcmp(file_format, "gif") == 0)
+    {
+        gif original = load_gif(filename);
         
-    free(resized.data);
+        gif resized = resize_gif(&original, width);
 
+        play_gif(&resized);
+    } 
+    else
+    {
+        image original = load_image(filename);
+
+        image resized = resize_image(&original, width); 
+        
+        free_image(&original);
+
+        print_image(&resized);
+            
+        free(resized.data);
+    }
+    
     return 0;
 }
 

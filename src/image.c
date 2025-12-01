@@ -84,9 +84,9 @@ void print_image(image* img)
     {
         for (int j = 0; j < img->width; ++j)
         {
-            unsigned char r = img->data[((i * img->width) + j) * 3 + 0];
-            unsigned char g = img->data[((i * img->width) + j) * 3 + 1];
-            unsigned char b = img->data[((i * img->width) + j) * 3 + 2];
+            unsigned char r = img->data[((i * img->width) + j) * img->channels + 0];
+            unsigned char g = img->data[((i * img->width) + j) * img->channels + 1];
+            unsigned char b = img->data[((i * img->width) + j) * img->channels + 2];
             
             float brightness = 0.299f*r + 0.587f*g + 0.114f*b;
 
